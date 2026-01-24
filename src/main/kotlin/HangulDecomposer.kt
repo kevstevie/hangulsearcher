@@ -6,23 +6,23 @@ import HangulConstants.JONGSUNGS
 import HangulConstants.JUNGSUNGS
 
 class HangulDecomposer {
-    
+
     fun decompose(char: Char): DecomposedChar {
         val code = char.code
-        
+
         if (char !in HANGUL_START..HANGUL_END) {
             return DecomposedChar(char, null, null, null)
         }
-        
+
         val relativeCode = code - HANGUL_START_CODE
         val initialIndex = relativeCode / (21 * 28)
         val medialIndex = (relativeCode % (21 * 28)) / 28
         val finalIndex = relativeCode % 28
-        
+
         val initial = CHOSUNGS[initialIndex]
         val medial = JUNGSUNGS[medialIndex]
         val final = if (finalIndex == 0) null else JONGSUNGS[finalIndex]
-        
+
         return DecomposedChar(char, initial, medial, final)
     }
 
@@ -42,19 +42,26 @@ class HangulDecomposer {
             }
         }.joinToString("")
     }
-    
+
+    fun decomposeToInitials(text: String): String {
+        return text.map { char ->
+            val decomposed = decompose(char)
+            decomposed.chosung ?: decomposed.original
+        }.joinToString("")
+    }
+
     fun getInitial(char: Char): Char? {
         return decompose(char).chosung
     }
-    
+
     fun getMedial(char: Char): Char? {
         return decompose(char).jungsung
     }
-    
+
     fun getFinal(char: Char): Char? {
         return decompose(char).jongsung
     }
-    
+
     fun isHangul(char: Char): Boolean {
         return char in HANGUL_START..HANGUL_END
     }
