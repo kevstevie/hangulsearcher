@@ -25,10 +25,13 @@ class WordStorage(private val decomposer: HangulDecomposer = HangulDecomposer())
         val result = mutableListOf<String>()
         val len = decomposed.length
 
-        for (i in 1..len) {
-            for (j in 0..len - i) {
-                result.add(decomposed.substring(j, j + i))
+        val temp = StringBuilder()
+        for (i in 0 until len) {
+            for (j in i until len) {
+                temp.append(decomposed[j])
+                result.add(temp.toString())
             }
+            temp.clear()
         }
 
         return result
