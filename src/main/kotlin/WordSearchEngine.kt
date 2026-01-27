@@ -10,15 +10,11 @@ class WordSearchEngine(
 
             val decomposed = decomposer.decomposeToString(word)
             val tokens = tokenizer.tokenize(decomposed)
-            for (token in tokens) {
-                storage.storeToken(token, word)
-            }
+            storage.storeWordWithTokens(tokens, word)
 
             val chosung = decomposer.decomposeToInitials(word)
             val chosungTokens = tokenizer.tokenize(chosung)
-            for (token in chosungTokens) {
-                storage.storeChosungToken(token, word)
-            }
+            storage.storeWordWithChosungTokens(chosungTokens, word)
         }
     }
 
