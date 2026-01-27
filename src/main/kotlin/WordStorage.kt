@@ -1,40 +1,27 @@
-class WordStorage(private val decomposer: HangulDecomposer = HangulDecomposer()) {
+class WordStorage(
+    private val decomposer: HangulDecomposer = HangulDecomposer(),
+    private val tokenizer: NGramTokenizer = NGramTokenizer()
+) {
 
     private val tokenToWords = mutableMapOf<String, MutableSet<String>>()
     private val chosungTokenToWords = mutableMapOf<String, MutableSet<String>>()
 
     fun storeWord(vararg words: String) {
-        for (i in words) {
-            val decomposed = decomposer.decomposeToString(i)
-            val tokens = tokenize(decomposed)
+        for (word in words) {
+            val decomposed = decomposer.decomposeToString(word)
+            val tokens = tokenizer.tokenize(decomposed)
             for (token in tokens) {
                 val wordSet = tokenToWords.getOrPut(token) { mutableSetOf() }
-                wordSet.add(i)
+                wordSet.add(word)
             }
 
-            val chosung = decomposer.decomposeToInitials(i)
-            val chosungTokens = tokenize(chosung)
+            val chosung = decomposer.decomposeToInitials(word)
+            val chosungTokens = tokenizer.tokenize(chosung)
             for (token in chosungTokens) {
                 val wordSet = chosungTokenToWords.getOrPut(token) { mutableSetOf() }
-                wordSet.add(i)
+                wordSet.add(word)
             }
         }
-    }
-
-    private fun tokenize(decomposed: String): List<String> {
-        val result = mutableListOf<String>()
-        val len = decomposed.length
-
-        val temp = StringBuilder()
-        for (i in 0 until len) {
-            for (j in i until len) {
-                temp.append(decomposed[j])
-                result.add(temp.toString())
-            }
-            temp.clear()
-        }
-
-        return result
     }
 
     fun searchWords(keyword: String): Set<String> {
