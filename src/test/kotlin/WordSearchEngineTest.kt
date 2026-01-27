@@ -296,4 +296,13 @@ class WordSearchEngineTest {
 
         assertThat(results).contains("테스트")
     }
+
+    @Test
+    fun `된발음 분리 검색`() {
+        searchEngine.storeWord("까")
+
+        val result = searchEngine.searchWords("ㄲ")
+
+        assertThat(result).contains("까")
+    }
 }

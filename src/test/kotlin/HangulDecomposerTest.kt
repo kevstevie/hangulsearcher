@@ -398,4 +398,60 @@ class HangulDecomposerTest {
 
         assertEquals("", result)
     }
+
+    @Test
+    fun `쌍자음 초성 분리`() {
+        assertSoftly { softly ->
+            softly.assertThat(decomposer.decompose('까').decomposed).isEqualTo("ㄱㄱㅏ")
+            softly.assertThat(decomposer.decompose('따').decomposed).isEqualTo("ㄷㄷㅏ")
+            softly.assertThat(decomposer.decompose('빠').decomposed).isEqualTo("ㅂㅂㅏ")
+            softly.assertThat(decomposer.decompose('싸').decomposed).isEqualTo("ㅅㅅㅏ")
+            softly.assertThat(decomposer.decompose('짜').decomposed).isEqualTo("ㅈㅈㅏ")
+        }
+    }
+
+    @Test
+    fun `쌍자음 종성 분리`() {
+        assertSoftly { softly ->
+            softly.assertThat(decomposer.decompose('갂').decomposed).isEqualTo("ㄱㅏㄱㄱ")
+            softly.assertThat(decomposer.decompose('갔').decomposed).isEqualTo("ㄱㅏㅅㅅ")
+        }
+    }
+
+    @Test
+    fun `쌍자음 포함 문자열 분리`() {
+        assertSoftly { softly ->
+            softly.assertThat(decomposer.decomposeToString("빵")).isEqualTo("ㅂㅂㅏㅇ")
+            softly.assertThat(decomposer.decomposeToString("쌀")).isEqualTo("ㅅㅅㅏㄹ")
+            softly.assertThat(decomposer.decomposeToString("짜장")).isEqualTo("ㅈㅈㅏㅈㅏㅇ")
+            softly.assertThat(decomposer.decomposeToString("아빠")).isEqualTo("ㅇㅏㅂㅂㅏ")
+        }
+    }
+
+    @Test
+    fun `쌍자음 초성과 종성 모두 포함`() {
+        val result = decomposer.decomposeToString("쐈")
+
+        assertEquals("ㅅㅅㅘㅅㅅ", result)
+    }
+
+    @Test
+    fun `자모 쌍자음 분리`() {
+        assertSoftly { softly ->
+            softly.assertThat(decomposer.decomposeToString("ㄲ")).isEqualTo("ㄱㄱ")
+            softly.assertThat(decomposer.decomposeToString("ㄸ")).isEqualTo("ㄷㄷ")
+            softly.assertThat(decomposer.decomposeToString("ㅃ")).isEqualTo("ㅂㅂ")
+            softly.assertThat(decomposer.decomposeToString("ㅆ")).isEqualTo("ㅅㅅ")
+            softly.assertThat(decomposer.decomposeToString("ㅉ")).isEqualTo("ㅈㅈ")
+        }
+    }
+
+    @Test
+    fun `자모 쌍자음과 한글 혼합`() {
+        assertSoftly { softly ->
+            softly.assertThat(decomposer.decomposeToString("ㄲ나")).isEqualTo("ㄱㄱㄴㅏ")
+            softly.assertThat(decomposer.decomposeToString("아ㅃ")).isEqualTo("ㅇㅏㅂㅂ")
+            softly.assertThat(decomposer.decomposeToString("ㅆㅏ")).isEqualTo("ㅅㅅㅏ")
+        }
+    }
 }

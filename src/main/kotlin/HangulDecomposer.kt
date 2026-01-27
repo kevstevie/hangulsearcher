@@ -36,7 +36,7 @@ class HangulDecomposer {
         return text.map { char ->
             val decomposed = decompose(char)
             if (decomposed.chosung == null) {
-                decomposed.original
+                expandDoubleConsonant(decomposed.original)
             } else {
                 decomposed.decomposed
             }
@@ -76,8 +76,17 @@ data class DecomposedChar(
 
     val decomposed: String
         get() = buildString {
-            chosung?.let { append(it) }
+            chosung?.let { append(expandDoubleConsonant(it)) }
             jungsung?.let { append(it) }
-            jongsung?.let { append(it) }
+            jongsung?.let { append(expandDoubleConsonant(it)) }
         }
+}
+
+private fun expandDoubleConsonant(char: Char): String = when (char) {
+    'ㄲ' -> "ㄱㄱ"
+    'ㄸ' -> "ㄷㄷ"
+    'ㅃ' -> "ㅂㅂ"
+    'ㅆ' -> "ㅅㅅ"
+    'ㅉ' -> "ㅈㅈ"
+    else -> char.toString()
 }
