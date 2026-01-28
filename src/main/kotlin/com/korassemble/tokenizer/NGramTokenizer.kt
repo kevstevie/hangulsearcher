@@ -1,3 +1,5 @@
+package com.korassemble.tokenizer
+
 class NGramTokenizer {
     fun tokenize(text: String): List<String> {
         val tokens = mutableListOf<String>()

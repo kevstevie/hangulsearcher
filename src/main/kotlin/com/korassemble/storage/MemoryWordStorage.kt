@@ -1,3 +1,7 @@
+package com.korassemble.storage
+
+import com.korassemble.tokenizer.TokenizedWord
+
 class MemoryWordStorage : WordStorage {
 
     private val tokenToWords = mutableMapOf<String, MutableSet<String>>()

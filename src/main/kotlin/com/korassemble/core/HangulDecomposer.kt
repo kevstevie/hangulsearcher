@@ -1,9 +1,11 @@
-import HangulConstants.CHOSUNGS
-import HangulConstants.HANGUL_END
-import HangulConstants.HANGUL_START
-import HangulConstants.HANGUL_START_CODE
-import HangulConstants.JONGSUNGS
-import HangulConstants.JUNGSUNGS
+package com.korassemble.core
+
+import com.korassemble.core.HangulConstants.CHOSUNGS
+import com.korassemble.core.HangulConstants.HANGUL_END
+import com.korassemble.core.HangulConstants.HANGUL_START
+import com.korassemble.core.HangulConstants.HANGUL_START_CODE
+import com.korassemble.core.HangulConstants.JONGSUNGS
+import com.korassemble.core.HangulConstants.JUNGSUNGS
 
 class HangulDecomposer {
 
@@ -82,7 +84,7 @@ data class DecomposedChar(
         }
 }
 
-private fun expandDoubleConsonant(char: Char): String = when (char) {
+internal fun expandDoubleConsonant(char: Char): String = when (char) {
     'ㄲ' -> "ㄱㄱ"
     'ㄸ' -> "ㄷㄷ"
     'ㅃ' -> "ㅂㅂ"

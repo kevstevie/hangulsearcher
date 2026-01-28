@@ -1,3 +1,5 @@
+package com.korassemble.core
+
 import org.assertj.core.api.SoftAssertions.assertSoftly
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

@@ -1,3 +1,7 @@
+package com.korassemble.index
+
+import com.korassemble.core.HangulDecomposer
+
 class HangulTrie(private val decomposer: HangulDecomposer = HangulDecomposer()) {
 
     private val root = TrieNode()

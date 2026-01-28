@@ -1,3 +1,6 @@
+package com.korassemble.storage
+
+import com.korassemble.tokenizer.TokenizedWord
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.SoftAssertions.assertSoftly

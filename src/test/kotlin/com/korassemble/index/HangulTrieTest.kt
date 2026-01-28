@@ -1,3 +1,5 @@
+package com.korassemble.index
+
 import org.assertj.core.api.SoftAssertions.assertSoftly
 import org.junit.jupiter.api.Test
 

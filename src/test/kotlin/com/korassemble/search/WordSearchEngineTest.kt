@@ -1,3 +1,6 @@
+package com.korassemble.search
+
+import com.korassemble.storage.MemoryWordStorage
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.SoftAssertions.assertSoftly
@@ -275,7 +278,7 @@ class WordSearchEngineTest {
         }
     }
 
-    @kotlin.test.Test
+    @Test
     fun `한글이 아닌 단어를 포함한 초성 검색`() {
         searchEngine.storeWords("Hello안녕", "123안녕", "!@#안녕")
 

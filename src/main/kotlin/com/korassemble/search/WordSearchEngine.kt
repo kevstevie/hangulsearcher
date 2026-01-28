@@ -1,3 +1,11 @@
+package com.korassemble.search
+
+import com.korassemble.core.HangulDecomposer
+import com.korassemble.storage.MemoryWordStorage
+import com.korassemble.storage.WordStorage
+import com.korassemble.tokenizer.NGramTokenizer
+import com.korassemble.tokenizer.TokenizedWord
+
 class WordSearchEngine(
     private val storage: WordStorage = MemoryWordStorage(),
     private val decomposer: HangulDecomposer = HangulDecomposer(),
