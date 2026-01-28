@@ -14,7 +14,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `기본 저장 검색`() {
-        searchEngine.storeWord("안녕하세요", "안녕히가세요", "안녕")
+        searchEngine.storeWords("안녕하세요", "안녕히가세요", "안녕")
         val results = searchEngine.searchWords("안녕")
 
         assertSoftly { softly ->
@@ -26,7 +26,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `종성 분리 검색`() {
-        searchEngine.storeWord("안녕히가세요")
+        searchEngine.storeWords("안녕히가세요")
 
         val results = searchEngine.searchWords("힉")
 
@@ -37,7 +37,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `기본 초성 검색`() {
-        searchEngine.storeWord("안녕하세요", "안녕히가세요", "안녕")
+        searchEngine.storeWords("안녕하세요", "안녕히가세요", "안녕")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWordsForChosung("ㅇㄴ")).hasSize(3)
@@ -47,7 +47,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `중복 저장`() {
-        searchEngine.storeWord("안녕하세요", "안녕하세요", "안녕하세요")
+        searchEngine.storeWords("안녕하세요", "안녕하세요", "안녕하세요")
 
         val results = searchEngine.searchWords("안녕하세요")
 
@@ -56,7 +56,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `빈 문자열 저장`() {
-        searchEngine.storeWord("")
+        searchEngine.storeWords("")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("")).isEmpty()
@@ -66,7 +66,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `빈 문자열 검색`() {
-        searchEngine.storeWord("안녕")
+        searchEngine.storeWords("안녕")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("")).isEmpty()
@@ -76,7 +76,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `한글이 아닌 문자만 저장`() {
-        searchEngine.storeWord("Hello", "123", "!@#")
+        searchEngine.storeWords("Hello", "123", "!@#")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("Hello")).contains("Hello")
@@ -87,7 +87,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `한글과 영문 혼합 저장 검색`() {
-        searchEngine.storeWord("안녕Hello", "Hello안녕", "안녕123")
+        searchEngine.storeWords("안녕Hello", "Hello안녕", "안녕123")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("안녕Hello")).contains("안녕Hello")
@@ -98,7 +98,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `존재하지 않는 키워드 검색`() {
-        searchEngine.storeWord("안녕하세요")
+        searchEngine.storeWords("안녕하세요")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("없는단어")).isEmpty()
@@ -108,7 +108,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `부분 토큰 검색`() {
-        searchEngine.storeWord("안녕하세요")
+        searchEngine.storeWords("안녕하세요")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("안녕")).contains("안녕하세요")
@@ -119,7 +119,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `단일 문자 토큰 검색`() {
-        searchEngine.storeWord("안녕")
+        searchEngine.storeWords("안녕")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("ㅇ")).contains("안녕")
@@ -130,7 +130,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `초성 검색 - 단일 초성`() {
-        searchEngine.storeWord("안녕", "안녕하세요", "안녕히가세요")
+        searchEngine.storeWords("안녕", "안녕하세요", "안녕히가세요")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWordsForChosung("ㅇ")).hasSize(3)
@@ -140,7 +140,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `초성 검색 - 부분 초성`() {
-        searchEngine.storeWord("안녕하세요", "안녕히가세요")
+        searchEngine.storeWords("안녕하세요", "안녕히가세요")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWordsForChosung("ㅇㄴ")).hasSize(2)
@@ -151,7 +151,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `초성 검색 - 전체 초성`() {
-        searchEngine.storeWord("안녕하세요")
+        searchEngine.storeWords("안녕하세요")
 
         val results = searchEngine.searchWordsForChosung("ㅇㄴㅎㅅㅇ")
 
@@ -162,7 +162,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `초성 검색 - 한글이 아닌 문자 포함`() {
-        searchEngine.storeWord("안녕Hello")
+        searchEngine.storeWords("안녕Hello")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWordsForChosung("ㅇㄴ")).contains("안녕Hello")
@@ -172,9 +172,9 @@ class WordSearchEngineTest {
 
     @Test
     fun `여러 번 저장`() {
-        searchEngine.storeWord("안녕")
-        searchEngine.storeWord("안녕하세요")
-        searchEngine.storeWord("안녕히가세요")
+        searchEngine.storeWords("안녕")
+        searchEngine.storeWords("안녕하세요")
+        searchEngine.storeWords("안녕히가세요")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("안녕")).hasSize(3)
@@ -185,7 +185,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `clear 후 검색`() {
-        searchEngine.storeWord("안녕", "안녕하세요")
+        searchEngine.storeWords("안녕", "안녕하세요")
         searchEngine.clear()
 
         assertSoftly { softly ->
@@ -197,9 +197,9 @@ class WordSearchEngineTest {
 
     @Test
     fun `clear 후 재저장`() {
-        searchEngine.storeWord("안녕")
+        searchEngine.storeWords("안녕")
         searchEngine.clear()
-        searchEngine.storeWord("반갑습니다")
+        searchEngine.storeWords("반갑습니다")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("안녕")).isEmpty()
@@ -209,7 +209,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `받침 있는 단어 검색`() {
-        searchEngine.storeWord("값", "각", "간")
+        searchEngine.storeWords("값", "각", "간")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("값")).contains("값")
@@ -220,7 +220,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `복잡한 받침 검색`() {
-        searchEngine.storeWord("값", "읊다", "읊어")
+        searchEngine.storeWords("값", "읊다", "읊어")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("값")).contains("값")
@@ -231,7 +231,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `긴 단어 검색`() {
-        searchEngine.storeWord("안녕하세요반갑습니다")
+        searchEngine.storeWords("안녕하세요반갑습니다")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("안녕")).contains("안녕하세요반갑습니다")
@@ -242,7 +242,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `초성 검색 - 다양한 길이`() {
-        searchEngine.storeWord("가나다라마")
+        searchEngine.storeWords("가나다라마")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWordsForChosung("ㄱ")).hasSize(1)
@@ -255,7 +255,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `특수문자 포함 단어`() {
-        searchEngine.storeWord("안녕!", "안녕?", "안녕.")
+        searchEngine.storeWords("안녕!", "안녕?", "안녕.")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("안녕!")).contains("안녕!")
@@ -266,7 +266,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `숫자 포함 단어`() {
-        searchEngine.storeWord("안녕123", "123안녕", "안123녕")
+        searchEngine.storeWords("안녕123", "123안녕", "안123녕")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWords("안녕123")).contains("안녕123")
@@ -277,7 +277,7 @@ class WordSearchEngineTest {
 
     @kotlin.test.Test
     fun `한글이 아닌 단어를 포함한 초성 검색`() {
-        searchEngine.storeWord("Hello안녕", "123안녕", "!@#안녕")
+        searchEngine.storeWords("Hello안녕", "123안녕", "!@#안녕")
 
         assertSoftly { softly ->
             softly.assertThat(searchEngine.searchWordsForChosung("Helloㅇㄴ")).contains("Hello안녕")
@@ -291,7 +291,7 @@ class WordSearchEngineTest {
         val customStorage = MemoryWordStorage()
         val customEngine = WordSearchEngine(storage = customStorage)
 
-        customEngine.storeWord("테스트")
+        customEngine.storeWords("테스트")
         val results = customEngine.searchWords("테스트")
 
         assertThat(results).contains("테스트")
@@ -299,7 +299,7 @@ class WordSearchEngineTest {
 
     @Test
     fun `된발음 분리 검색`() {
-        searchEngine.storeWord("까")
+        searchEngine.storeWords("까")
 
         val result = searchEngine.searchWords("ㄲ")
 

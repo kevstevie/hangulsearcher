@@ -4,18 +4,33 @@ class WordSearchEngine(
     private val tokenizer: NGramTokenizer = NGramTokenizer()
 ) {
 
-    fun storeWord(vararg words: String) {
+    fun storeWords(vararg words: String) {
+        storeWordsByTokens(*words)
+        storeWordsByChosungTokens(*words)
+    }
+
+    fun storeWordsByTokens(vararg words: String) {
+        val tokenizedWords = mutableListOf<TokenizedWord>()
         for (word in words) {
             if (word.isEmpty()) continue
 
             val decomposed = decomposer.decomposeToString(word)
-            val tokens = tokenizer.tokenize(decomposed)
-            storage.storeWordWithTokens(tokens, word)
+            val tokenized = tokenizer.tokenize(decomposed)
+            tokenizedWords.add(TokenizedWord(word, tokenized))
+        }
+        storage.saveAllWordWithTokens(tokenizedWords)
+    }
+
+    fun storeWordsByChosungTokens(vararg words: String) {
+        val tokenizedWords = mutableListOf<TokenizedWord>()
+        for (word in words) {
+            if (word.isEmpty()) continue
 
             val chosung = decomposer.decomposeToInitials(word)
-            val chosungTokens = tokenizer.tokenize(chosung)
-            storage.storeWordWithChosungTokens(chosungTokens, word)
+            val chosungTokenized = tokenizer.tokenize(chosung)
+            tokenizedWords.add(TokenizedWord(word, chosungTokenized))
         }
+        storage.saveAllWordWithChosungTokens(tokenizedWords)
     }
 
     fun searchWords(keyword: String): Set<String> {
